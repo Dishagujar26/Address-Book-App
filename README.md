@@ -62,3 +62,19 @@ Implemented functionality to edit an existing contact using the person's name.
 [feature/UC3-edit-contact](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC3-edit-contact)
 
 ---
+
+## UC4 – Ability to Delete a Person Using Person's Name
+
+Implemented functionality to delete a contact from the Address Book.
+
+**Features Implemented**
+
+- Used **console input** to enter the person's name.
+- Searched the contact using the name.
+- Deleted the contact from the Address Book.
+
+**GitHub Branch**
+
+[feature/UC4-delete-contact](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC4-delete-contact)
+
+---
