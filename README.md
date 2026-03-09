@@ -252,3 +252,22 @@ Implemented functionality to store and retrieve Address Book contacts in **CSV f
 [feature/UC14-read-write-addressbook-csv](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC14-csv-file)
 
 ---
+
+## UC15 – Ability to Read/Write Address Book as JSON File
+
+**Description**
+
+Implemented functionality to store and retrieve Address Book contacts in **JSON format**.
+
+**Features Implemented**
+
+- Used **GSON Library** for JSON serialization and deserialization.
+- Implemented **write operation** to store contacts in JSON file.
+- Implemented **read operation** to load contacts from JSON file.
+- Displayed JSON data in the console after reading.
+
+**GitHub Branch**
+
+[feature/UC15-read-write-addressbook-json](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC15-json-file)
+
+---
