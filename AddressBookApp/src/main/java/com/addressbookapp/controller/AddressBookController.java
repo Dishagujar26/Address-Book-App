@@ -1,5 +1,6 @@
 package com.addressbookapp.controller;
 
+import com.addressbookapp.manager.AddressBookManager;
 import com.addressbookapp.model.Contact;
 import com.addressbookapp.service.AddressBookService;
 import org.springframework.stereotype.Component;
@@ -11,9 +12,11 @@ import java.util.Scanner;
 public class AddressBookController {
 
 	private final AddressBookService service;
+	private final AddressBookManager manager;
 
-	public AddressBookController(AddressBookService service) {
+	public AddressBookController(AddressBookService service, AddressBookManager manager) {
 		this.service = service;
+		this.manager = manager;
 	}
 
 	public void start() {
@@ -23,12 +26,12 @@ public class AddressBookController {
 
 		while (running) {
 
-			System.out.println("\nAddress Book Menu");
-			System.out.println("1. Add Contact");
-			System.out.println("2. Edit Contact");
-			System.out.println("3. Delete Contact");
-			System.out.println("4. View Contacts");
-			System.out.println("5. Exit");
+			System.out.println("\n1 Add Address Book");
+			System.out.println("2 Add Contact");
+			System.out.println("3 Edit Contact");
+			System.out.println("4 Delete Contact");
+			System.out.println("5 View Contacts");
+			System.out.println("6 Exit");
 
 			int choice = scanner.nextInt();
 			scanner.nextLine();
@@ -36,6 +39,18 @@ public class AddressBookController {
 			switch (choice) {
 
 			case 1:
+
+				System.out.println("Enter Address Book Name:");
+				String bookName = scanner.nextLine();
+				manager.addAddressBook(bookName);
+
+				break;
+
+			case 2:
+
+				System.out.println("Enter Address Book Name:");
+				String addBook = scanner.nextLine();
+
 				Contact contact = new Contact();
 
 				System.out.println("First Name:");
@@ -62,20 +77,17 @@ public class AddressBookController {
 				System.out.println("Email:");
 				contact.setEmail(scanner.nextLine());
 
-				service.addContact(contact);
+				service.addContact(addBook, contact);
+
 				break;
 
-			case 2:
+			case 3:
 
-				System.out.println("Enter first name of contact to edit:");
-				String editName = scanner.nextLine();
+				System.out.println("Enter Address Book Name:");
+				String editBook = scanner.nextLine();
 
-				Contact existing = service.findContact(editName);
-
-				if (existing == null) {
-					System.out.println("Contact not found.");
-					break;
-				}
+				System.out.println("Enter First Name of contact:");
+				String name = scanner.nextLine();
 
 				Contact updated = new Contact();
 
@@ -97,38 +109,42 @@ public class AddressBookController {
 				System.out.println("New Email:");
 				updated.setEmail(scanner.nextLine());
 
-				service.editContact(editName, updated);
-				break;
+				service.editContact(editBook, name, updated);
 
-			case 3:
-
-				System.out.println("Enter first name of contact to delete:");
-				String deleteName = scanner.nextLine();
-
-				service.deleteContact(deleteName);
 				break;
 
 			case 4:
 
-				List<Contact> contacts = service.getAllContacts();
+				System.out.println("Enter Address Book Name:");
+				String deleteBook = scanner.nextLine();
 
-				if (contacts.isEmpty()) {
-					System.out.println("No contacts found.");
-				} else {
-					for (Contact person : contacts) {
-						System.out.println(person);
-					}
-				}
+				System.out.println("Enter First Name of contact:");
+				String deleteName = scanner.nextLine();
+
+				service.deleteContact(deleteBook, deleteName);
 
 				break;
 
 			case 5:
+
+				System.out.println("Enter Address Book Name:");
+				String viewBook = scanner.nextLine();
+
+				List<Contact> contacts = service.getAllContacts(viewBook);
+
+				if (contacts == null || contacts.isEmpty()) {
+					System.out.println("No contacts found.");
+				} else {
+					contacts.forEach(System.out::println);
+				}
+
+				break;
+
+			case 6:
+
 				running = false;
 				System.out.println("Exiting Address Book...");
 				break;
-
-			default:
-				System.out.println("Invalid option");
 			}
 		}
 	}

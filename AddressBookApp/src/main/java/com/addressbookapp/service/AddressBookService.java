@@ -1,18 +1,18 @@
 package com.addressbookapp.service;
 
-import java.util.List;
-
 import com.addressbookapp.model.Contact;
+
+import java.util.List;
 
 public interface AddressBookService {
 
-	void addContact(Contact contact);
+	void addContact(String bookName, Contact contact);
 
-	void editContact(String name, Contact updatedContact);
-	
-	void deleteContact(String name);
-	
-	List<Contact> getAllContacts();
-	
-	Contact findContact(String name);
+	void editContact(String bookName, String name, Contact updatedContact);
+
+	void deleteContact(String bookName, String name);
+
+	List<Contact> getAllContacts(String bookName);
+
+	Contact findContact(String bookName, String name);
 }

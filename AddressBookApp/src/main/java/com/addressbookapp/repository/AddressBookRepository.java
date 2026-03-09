@@ -3,23 +3,16 @@ package com.addressbookapp.repository;
 import com.addressbookapp.model.Contact;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class AddressBookRepository {
 
-	private final List<Contact> contacts = new ArrayList<>();
-
-	public void save(Contact contact) {
+	public void save(Contact contact, List<Contact> contacts) {
 		contacts.add(contact);
 	}
 
-	public List<Contact> findAll() {
-		return contacts;
-	}
-
-	public Contact findByFirstName(String name) {
+	public Contact findByFirstName(String name, List<Contact> contacts) {
 
 		for (Contact contact : contacts) {
 			if (contact.getFirstName().equalsIgnoreCase(name)) {
@@ -30,7 +23,7 @@ public class AddressBookRepository {
 		return null;
 	}
 
-	public void delete(Contact contact) {
+	public void delete(Contact contact, List<Contact> contacts) {
 		contacts.remove(contact);
 	}
 }
