@@ -42,4 +42,17 @@ public class AddressBookServiceImpl implements AddressBookService {
 			System.out.println("Contact not found.");
 		}
 	}
+	
+	@Override
+	public void deleteContact(String name) {
+
+		Contact contact = repository.findByFirstName(name);
+
+		if (contact != null) {
+			repository.delete(contact);
+			System.out.println("Contact deleted successfully.");
+		} else {
+			System.out.println("Contact not found.");
+		}
+	}
 }

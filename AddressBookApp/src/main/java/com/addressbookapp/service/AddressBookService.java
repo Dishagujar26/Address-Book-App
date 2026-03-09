@@ -8,5 +8,7 @@ public interface AddressBookService {
 
 	void editContact(String name, Contact updatedContact);
 	
+	void deleteContact(String name);
+	
 	Contact findContact(String name);
 }

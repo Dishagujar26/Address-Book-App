@@ -28,4 +28,8 @@ public class AddressBookRepository {
 
 		return null;
 	}
+	
+	public void delete(Contact contact) {
+		contacts.remove(contact);
+	}
 }
