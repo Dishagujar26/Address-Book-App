@@ -196,3 +196,22 @@ Implemented functionality to sort all contact entries in the Address Book alphab
 [feature/UC11-sort-contacts-by-name](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC11-sort-contacts-by-name)
 
 ---
+
+## UC12 – Ability to Sort Entries by City, State, or Zip
+
+Implemented functionality to sort contact entries in the Address Book based on city, state, or zip code.
+
+**Features Implemented**
+
+- Created **separate functions** to sort contacts by:
+  - City
+  - State
+  - Zip
+- Used **Collection Library** for sorting operations.
+- Used **Java Streams** to perform sorting and display results in the console.
+
+**GitHub Branch**
+
+[feature/UC12-sort-contacts-by-city-state-zip](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC12-sort-contacts-by-city-state-zip)
+
+---
