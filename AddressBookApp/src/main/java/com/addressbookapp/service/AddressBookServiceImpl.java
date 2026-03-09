@@ -29,6 +29,15 @@ public class AddressBookServiceImpl implements AddressBookService {
 			return;
 		}
 
+		boolean duplicate = book.getContacts().stream()
+				.anyMatch(c -> c.getFirstName().equalsIgnoreCase(contact.getFirstName())
+						&& c.getLastName().equalsIgnoreCase(contact.getLastName()));
+
+		if (duplicate) {
+			System.out.println("Duplicate contact found. Contact not added.");
+			return;
+		}
+
 		repository.save(contact, book.getContacts());
 		System.out.println("Contact added successfully.");
 	}
