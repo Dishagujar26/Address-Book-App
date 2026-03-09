@@ -7,6 +7,8 @@ import com.addressbookapp.repository.AddressBookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressBookServiceImpl implements AddressBookService {
@@ -126,5 +128,25 @@ public class AddressBookServiceImpl implements AddressBookService {
 
 		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
 				.filter(contact -> contact.getState().equalsIgnoreCase(state)).toList();
+	}
+	
+	@Override
+	public Map<String, List<Contact>> getPersonsByCity() {
+
+	    return manager.getAllAddressBooks()
+	            .values()
+	            .stream()
+	            .flatMap(book -> book.getContacts().stream())
+	            .collect(Collectors.groupingBy(Contact::getCity));
+	}
+	
+	@Override
+	public Map<String, List<Contact>> getPersonsByState() {
+
+	    return manager.getAllAddressBooks()
+	            .values()
+	            .stream()
+	            .flatMap(book -> book.getContacts().stream())
+	            .collect(Collectors.groupingBy(Contact::getState));
 	}
 }

@@ -6,6 +6,7 @@ import com.addressbookapp.service.AddressBookService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 @Component
@@ -31,7 +32,7 @@ public class AddressBookController {
 			int choice = scanner.nextInt();
 			scanner.nextLine();
 
-			switch (choice) {
+			switch(choice){
 
 			case 1 -> addAddressBook();
 			case 2 -> addContact();
@@ -40,7 +41,10 @@ public class AddressBookController {
 			case 5 -> viewContacts();
 			case 6 -> searchByCity();
 			case 7 -> searchByState();
-			case 8 -> running = false;
+			case 8 -> viewPersonsByCity();
+			case 9 -> viewPersonsByState();
+			case 10 -> running = false;
+
 			}
 		}
 	}
@@ -54,7 +58,9 @@ public class AddressBookController {
 		System.out.println("5 View Contacts");
 		System.out.println("6 Search by City");
 		System.out.println("7 Search by State");
-		System.out.println("8 Exit");
+		System.out.println("8 View Persons by City");
+		System.out.println("9 View Persons by State");
+		System.out.println("10 Exit");
 	}
 
 	private void addAddressBook() {
@@ -184,6 +190,26 @@ public class AddressBookController {
 		}
 
 		results.forEach(System.out::println);
+	}
+	
+	private void viewPersonsByCity() {
+
+	    Map<String, List<Contact>> cityMap = service.getPersonsByCity();
+
+	    cityMap.forEach((city, persons) -> {
+	        System.out.println("\nCity: " + city);
+	        persons.forEach(System.out::println);
+	    });
+	}
+	
+	private void viewPersonsByState() {
+
+	    Map<String, List<Contact>> stateMap = service.getPersonsByState();
+
+	    stateMap.forEach((state, persons) -> {
+	        System.out.println("\nState: " + state);
+	        persons.forEach(System.out::println);
+	    });
 	}
 
 }

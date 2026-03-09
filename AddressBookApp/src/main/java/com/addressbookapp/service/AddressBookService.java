@@ -3,6 +3,7 @@ package com.addressbookapp.service;
 import com.addressbookapp.model.Contact;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AddressBookService {
 
@@ -19,4 +20,8 @@ public interface AddressBookService {
 	List<Contact> searchByCity(String city);
 
 	List<Contact> searchByState(String state);
+	
+	Map<String, List<Contact>> getPersonsByCity();
+
+	Map<String, List<Contact>> getPersonsByState();
 }
