@@ -128,3 +128,19 @@ Implemented validation to prevent duplicate contacts in the same Address Book.
 [feature/UC7-prevent-duplicate-contact](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC7-prevent-duplicate-contact)
 
 ---
+
+## UC8 – Ability to Search Person by City or State
+
+Implemented functionality to search for contacts across multiple Address Books by city or state.
+
+**Features Implemented**
+
+- Search persons using **city or state**.
+- Results can return **multiple persons**.
+- Used **Java Streams** for filtering contacts.
+
+**GitHub Branch**
+
+[feature/UC8-search-person-by-city-or-state](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC8-search-person-by-city-or-state)
+
+---
