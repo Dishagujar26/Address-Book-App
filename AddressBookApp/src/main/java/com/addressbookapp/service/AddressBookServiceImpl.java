@@ -9,9 +9,14 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Type;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -298,4 +303,63 @@ public class AddressBookServiceImpl implements AddressBookService {
 			System.out.println("CSV file not found.");
 		}
 	}
+
+	@Override
+	public void saveAddressBookToJSON(String bookName) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			System.out.println("Address Book not found.");
+			return;
+		}
+
+		try {
+
+			Gson gson = new Gson();
+
+			FileWriter writer = new FileWriter(bookName + ".json");
+
+			gson.toJson(book.getContacts(), writer);
+
+			writer.close();
+
+			System.out.println("Address Book saved as JSON file.");
+
+		} catch (Exception e) {
+			System.out.println("Error writing JSON file.");
+		}
+	}
+
+	@Override
+	public void loadAddressBookFromJSON(String bookName) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			manager.addAddressBook(bookName);
+			book = manager.getAddressBook(bookName);
+		}
+
+		try {
+
+			Gson gson = new Gson();
+
+			FileReader reader = new FileReader(bookName + ".json");
+
+			Type contactListType = new TypeToken<List<Contact>>() {
+			}.getType();
+
+			List<Contact> contacts = gson.fromJson(reader, contactListType);
+
+			book.getContacts().clear();
+			book.getContacts().addAll(contacts);
+
+			System.out.println("Address Book loaded from JSON file.");
+
+		} catch (Exception e) {
+			System.out.println("JSON file not found.");
+		}
+	}
 }
+

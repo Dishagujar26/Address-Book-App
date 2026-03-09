@@ -54,7 +54,9 @@ public class AddressBookController {
 			case 17 -> loadFromFile();
 			case 18 -> saveToCSV();
 			case 19 -> loadFromCSV();
-			case 20 -> running = false;
+			case 20 -> saveToJSON();
+			case 21 -> loadFromJSON();
+			case 22 -> running = false;
 
 			}
 		}
@@ -81,7 +83,9 @@ public class AddressBookController {
 		System.out.println("17 Load Address Book from File");
 		System.out.println("18 Save Address Book as CSV");
 		System.out.println("19 Load Address Book from CSV");
-		System.out.println("20 Exit");
+		System.out.println("20 Save Address Book as JSON");
+		System.out.println("21 Load Address Book from JSON");
+		System.out.println("22 Exit");
 	}
 
 	private void addAddressBook() {
@@ -322,6 +326,22 @@ public class AddressBookController {
 		String book = scanner.nextLine();
 
 		service.loadAddressBookFromCSV(book);
+	}
+
+	private void saveToJSON() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.saveAddressBookToJSON(book);
+	}
+
+	private void loadFromJSON() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.loadAddressBookFromJSON(book);
 	}
 
 }
