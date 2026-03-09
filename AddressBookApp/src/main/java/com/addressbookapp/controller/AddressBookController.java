@@ -5,6 +5,7 @@ import com.addressbookapp.model.Contact;
 import com.addressbookapp.service.AddressBookService;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -46,7 +47,10 @@ public class AddressBookController {
 			case 10 -> countByCity();
 			case 11 -> countByState();
 			case 12 -> sortContacts();
-			case 13 -> running = false;
+			case 13 -> sortByCity();
+			case 14 -> sortByState();
+			case 15 -> sortByZip();
+			case 16 -> running = false;
 
 			}
 		}
@@ -66,7 +70,10 @@ public class AddressBookController {
 		System.out.println("10 Count Contacts by City");
 		System.out.println("11 Count Contacts by State");
 		System.out.println("12 Sort Contacts by Name");
-		System.out.println("13 Exit");
+		System.out.println("13 Sort by City");
+		System.out.println("14 Sort by State");
+		System.out.println("15 Sort by Zip");
+		System.out.println("16 Exit");
 	}
 
 	private void addAddressBook() {
@@ -243,6 +250,36 @@ public class AddressBookController {
 			System.out.println("No contacts found.");
 			return;
 		}
+
+		contacts.forEach(System.out::println);
+	}
+
+	private void sortByCity() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		List<Contact> contacts = service.sortContacts(book, Comparator.comparing(Contact::getCity));
+
+		contacts.forEach(System.out::println);
+	}
+
+	private void sortByState() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		List<Contact> contacts = service.sortContacts(book, Comparator.comparing(Contact::getState));
+
+		contacts.forEach(System.out::println);
+	}
+
+	private void sortByZip() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		List<Contact> contacts = service.sortContacts(book, Comparator.comparing(Contact::getZip));
 
 		contacts.forEach(System.out::println);
 	}

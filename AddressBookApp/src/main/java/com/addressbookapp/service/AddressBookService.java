@@ -2,6 +2,7 @@ package com.addressbookapp.service;
 
 import com.addressbookapp.model.Contact;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,6 +28,8 @@ public interface AddressBookService {
 	Map<String, List<Contact>> getPersonsByState();
 
 	Map<String, Long> getContactCount(Function<Contact, String> classifier);
-	
+
 	List<Contact> sortContactsByName(String bookName);
+
+	List<Contact> sortContacts(String bookName, Comparator<Contact> comparator);
 }

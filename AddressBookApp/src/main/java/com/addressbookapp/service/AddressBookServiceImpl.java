@@ -166,4 +166,17 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return book.getContacts().stream()
 				.sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName)).toList();
 	}
+
+	@Override
+	public List<Contact> sortContacts(String bookName, Comparator<Contact> comparator) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			System.out.println("Address Book not found.");
+			return List.of();
+		}
+
+		return book.getContacts().stream().sorted(comparator).toList();
+	}
 }
