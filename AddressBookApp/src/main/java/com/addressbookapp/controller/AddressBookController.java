@@ -50,7 +50,9 @@ public class AddressBookController {
 			case 13 -> sortByCity();
 			case 14 -> sortByState();
 			case 15 -> sortByZip();
-			case 16 -> running = false;
+			case 16 -> saveToFile();
+			case 17 -> loadFromFile();
+			case 18 -> running = false;
 
 			}
 		}
@@ -73,7 +75,9 @@ public class AddressBookController {
 		System.out.println("13 Sort by City");
 		System.out.println("14 Sort by State");
 		System.out.println("15 Sort by Zip");
-		System.out.println("16 Exit");
+		System.out.println("16 Save Address Book to File");
+		System.out.println("17 Load Address Book from File");
+		System.out.println("18 Exit");
 	}
 
 	private void addAddressBook() {
@@ -282,6 +286,22 @@ public class AddressBookController {
 		List<Contact> contacts = service.sortContacts(book, Comparator.comparing(Contact::getZip));
 
 		contacts.forEach(System.out::println);
+	}
+
+	private void saveToFile() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.saveAddressBookToFile(book);
+	}
+
+	private void loadFromFile() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.loadAddressBookFromFile(book);
 	}
 
 }

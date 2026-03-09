@@ -32,4 +32,8 @@ public interface AddressBookService {
 	List<Contact> sortContactsByName(String bookName);
 
 	List<Contact> sortContacts(String bookName, Comparator<Contact> comparator);
+
+	void saveAddressBookToFile(String bookName);
+
+	void loadAddressBookFromFile(String bookName);
 }

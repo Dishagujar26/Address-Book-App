@@ -6,6 +6,9 @@ import com.addressbookapp.model.Contact;
 import com.addressbookapp.repository.AddressBookRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -178,5 +181,59 @@ public class AddressBookServiceImpl implements AddressBookService {
 		}
 
 		return book.getContacts().stream().sorted(comparator).toList();
+	}
+
+	@Override
+	public void saveAddressBookToFile(String bookName) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			System.out.println("Address Book not found.");
+			return;
+		}
+
+		try {
+
+			List<String> lines = book.getContacts().stream()
+					.map(c -> String.join(",", c.getFirstName(), c.getLastName(), c.getAddress(), c.getCity(),
+							c.getState(), c.getZip(), c.getPhoneNumber(), c.getEmail()))
+					.toList();
+
+			Files.write(Path.of(bookName + ".txt"), lines);
+
+			System.out.println("Address Book saved to file.");
+
+		} catch (IOException e) {
+			System.out.println("Error writing file.");
+		}
+	}
+
+	@Override
+	public void loadAddressBookFromFile(String bookName) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			manager.addAddressBook(bookName);
+			book = manager.getAddressBook(bookName);
+		}
+
+		try {
+
+			book.getContacts().clear();
+
+			List<Contact> contacts = Files.readAllLines(Path.of(bookName + ".txt")).stream()
+					.map(line -> line.split(","))
+					.map(data -> new Contact(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]))
+					.toList();
+
+			book.getContacts().addAll(contacts);
+
+			System.out.println("Address Book loaded from file.");
+
+		} catch (IOException e) {
+			System.out.println("File not found.");
+		}
 	}
 }
