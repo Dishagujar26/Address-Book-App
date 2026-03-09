@@ -38,8 +38,9 @@ public class AddressBookController {
 			case 3 -> editContact();
 			case 4 -> deleteContact();
 			case 5 -> viewContacts();
-			case 6 -> running = false;
-			default -> System.out.println("Invalid choice");
+			case 6 -> searchByCity();
+			case 7 -> searchByState();
+			case 8 -> running = false;
 			}
 		}
 	}
@@ -51,7 +52,9 @@ public class AddressBookController {
 		System.out.println("3 Edit Contact");
 		System.out.println("4 Delete Contact");
 		System.out.println("5 View Contacts");
-		System.out.println("6 Exit");
+		System.out.println("6 Search by City");
+		System.out.println("7 Search by State");
+		System.out.println("8 Exit");
 	}
 
 	private void addAddressBook() {
@@ -152,4 +155,35 @@ public class AddressBookController {
 
 		contacts.forEach(System.out::println);
 	}
+
+	private void searchByCity() {
+
+		System.out.println("Enter City:");
+		String city = scanner.nextLine();
+
+		List<Contact> results = service.searchByCity(city);
+
+		if (results.isEmpty()) {
+			System.out.println("No contacts found.");
+			return;
+		}
+
+		results.forEach(System.out::println);
+	}
+
+	private void searchByState() {
+
+		System.out.println("Enter State:");
+		String state = scanner.nextLine();
+
+		List<Contact> results = service.searchByState(state);
+
+		if (results.isEmpty()) {
+			System.out.println("No contacts found.");
+			return;
+		}
+
+		results.forEach(System.out::println);
+	}
+
 }

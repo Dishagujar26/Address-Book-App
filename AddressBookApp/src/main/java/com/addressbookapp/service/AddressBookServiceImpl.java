@@ -113,4 +113,18 @@ public class AddressBookServiceImpl implements AddressBookService {
 
 		return repository.findByFirstName(name, book.getContacts());
 	}
+
+	@Override
+	public List<Contact> searchByCity(String city) {
+
+		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
+				.filter(contact -> contact.getCity().equalsIgnoreCase(city)).toList();
+	}
+
+	@Override
+	public List<Contact> searchByState(String state) {
+
+		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
+				.filter(contact -> contact.getState().equalsIgnoreCase(state)).toList();
+	}
 }

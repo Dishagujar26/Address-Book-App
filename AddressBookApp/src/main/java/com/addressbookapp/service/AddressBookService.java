@@ -15,4 +15,8 @@ public interface AddressBookService {
 	List<Contact> getAllContacts(String bookName);
 
 	Contact findContact(String bookName, String name);
+
+	List<Contact> searchByCity(String city);
+
+	List<Contact> searchByState(String state);
 }
