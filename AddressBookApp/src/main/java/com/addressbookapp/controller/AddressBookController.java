@@ -45,7 +45,8 @@ public class AddressBookController {
 			case 9 -> viewPersonsByState();
 			case 10 -> countByCity();
 			case 11 -> countByState();
-			case 12 -> running = false;
+			case 12 -> sortContacts();
+			case 13 -> running = false;
 
 			}
 		}
@@ -64,7 +65,8 @@ public class AddressBookController {
 		System.out.println("9 View Persons by State");
 		System.out.println("10 Count Contacts by City");
 		System.out.println("11 Count Contacts by State");
-		System.out.println("12 Exit");
+		System.out.println("12 Sort Contacts by Name");
+		System.out.println("13 Exit");
 	}
 
 	private void addAddressBook() {
@@ -228,6 +230,21 @@ public class AddressBookController {
 		Map<String, Long> result = service.getContactCount(Contact::getState);
 
 		result.forEach((state, count) -> System.out.println(state + " : " + count));
+	}
+
+	private void sortContacts() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		List<Contact> contacts = service.sortContactsByName(book);
+
+		if (contacts.isEmpty()) {
+			System.out.println("No contacts found.");
+			return;
+		}
+
+		contacts.forEach(System.out::println);
 	}
 
 }

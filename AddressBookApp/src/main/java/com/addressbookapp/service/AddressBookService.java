@@ -27,4 +27,6 @@ public interface AddressBookService {
 	Map<String, List<Contact>> getPersonsByState();
 
 	Map<String, Long> getContactCount(Function<Contact, String> classifier);
+	
+	List<Contact> sortContactsByName(String bookName);
 }

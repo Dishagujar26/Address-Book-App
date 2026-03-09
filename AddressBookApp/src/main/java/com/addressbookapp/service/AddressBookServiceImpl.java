@@ -6,6 +6,7 @@ import com.addressbookapp.model.Contact;
 import com.addressbookapp.repository.AddressBookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -150,5 +151,19 @@ public class AddressBookServiceImpl implements AddressBookService {
 
 		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
 				.collect(Collectors.groupingBy(classifier, Collectors.counting()));
+	}
+
+	@Override
+	public List<Contact> sortContactsByName(String bookName) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			System.out.println("Address Book not found.");
+			return List.of();
+		}
+
+		return book.getContacts().stream()
+				.sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName)).toList();
 	}
 }
