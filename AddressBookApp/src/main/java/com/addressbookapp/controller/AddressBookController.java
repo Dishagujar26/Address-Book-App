@@ -52,7 +52,9 @@ public class AddressBookController {
 			case 15 -> sortByZip();
 			case 16 -> saveToFile();
 			case 17 -> loadFromFile();
-			case 18 -> running = false;
+			case 18 -> saveToCSV();
+			case 19 -> loadFromCSV();
+			case 20 -> running = false;
 
 			}
 		}
@@ -77,7 +79,9 @@ public class AddressBookController {
 		System.out.println("15 Sort by Zip");
 		System.out.println("16 Save Address Book to File");
 		System.out.println("17 Load Address Book from File");
-		System.out.println("18 Exit");
+		System.out.println("18 Save Address Book as CSV");
+		System.out.println("19 Load Address Book from CSV");
+		System.out.println("20 Exit");
 	}
 
 	private void addAddressBook() {
@@ -302,6 +306,22 @@ public class AddressBookController {
 		String book = scanner.nextLine();
 
 		service.loadAddressBookFromFile(book);
+	}
+
+	private void saveToCSV() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.saveAddressBookToCSV(book);
+	}
+
+	private void loadFromCSV() {
+
+		System.out.println("Enter Address Book Name:");
+		String book = scanner.nextLine();
+
+		service.loadAddressBookFromCSV(book);
 	}
 
 }

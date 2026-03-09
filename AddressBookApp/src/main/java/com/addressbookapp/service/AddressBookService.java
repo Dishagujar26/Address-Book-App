@@ -36,4 +36,8 @@ public interface AddressBookService {
 	void saveAddressBookToFile(String bookName);
 
 	void loadAddressBookFromFile(String bookName);
+
+	void saveAddressBookToCSV(String bookName);
+
+	void loadAddressBookFromCSV(String bookName);
 }
