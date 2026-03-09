@@ -1,0 +1,45 @@
+package com.addressbookapp.service;
+import com.addressbookapp.model.Contact;
+import com.addressbookapp.repository.AddressBookRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AddressBookServiceImpl implements AddressBookService {
+
+	private final AddressBookRepository repository;
+
+	public AddressBookServiceImpl(AddressBookRepository repository) {
+		this.repository = repository;
+	}
+
+	@Override
+	public void addContact(Contact contact) {
+		repository.save(contact);
+		System.out.println("Contact Added Success");
+	}
+
+	@Override
+	public Contact findContact(String name) {
+		return repository.findByFirstName(name);
+	}
+
+	@Override
+	public void editContact(String name, Contact updatedContact) {
+
+		Contact existing = repository.findByFirstName(name);
+
+		if (existing != null) {
+
+			existing.setAddress(updatedContact.getAddress());
+			existing.setCity(updatedContact.getCity());
+			existing.setState(updatedContact.getState());
+			existing.setZip(updatedContact.getZip());
+			existing.setPhoneNumber(updatedContact.getPhoneNumber());
+			existing.setEmail(updatedContact.getEmail());
+
+			System.out.println("Contact updated successfully.");
+		} else {
+			System.out.println("Contact not found.");
+		}
+	}
+}
