@@ -1,6 +1,9 @@
 package com.addressbookapp.service;
 import com.addressbookapp.model.Contact;
 import com.addressbookapp.repository.AddressBookRepository;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,5 +57,10 @@ public class AddressBookServiceImpl implements AddressBookService {
 		} else {
 			System.out.println("Contact not found.");
 		}
+	}
+	
+	@Override
+	public List<Contact> getAllContacts() {
+	    return repository.findAll();
 	}
 }

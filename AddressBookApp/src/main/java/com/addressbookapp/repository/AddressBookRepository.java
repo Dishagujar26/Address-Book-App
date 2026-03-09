@@ -1,4 +1,5 @@
 package com.addressbookapp.repository;
+
 import com.addressbookapp.model.Contact;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public class AddressBookRepository {
 
 		return null;
 	}
-	
+
 	public void delete(Contact contact) {
 		contacts.remove(contact);
 	}

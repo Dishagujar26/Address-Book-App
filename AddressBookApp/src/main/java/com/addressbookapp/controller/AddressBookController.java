@@ -4,6 +4,7 @@ import com.addressbookapp.model.Contact;
 import com.addressbookapp.service.AddressBookService;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -26,7 +27,8 @@ public class AddressBookController {
 			System.out.println("1. Add Contact");
 			System.out.println("2. Edit Contact");
 			System.out.println("3. Delete Contact");
-			System.out.println("4. Exit");
+			System.out.println("4. View Contacts");
+			System.out.println("5. Exit");
 
 			int choice = scanner.nextInt();
 			scanner.nextLine();
@@ -107,6 +109,20 @@ public class AddressBookController {
 				break;
 
 			case 4:
+
+				List<Contact> contacts = service.getAllContacts();
+
+				if (contacts.isEmpty()) {
+					System.out.println("No contacts found.");
+				} else {
+					for (Contact person : contacts) {
+						System.out.println(person);
+					}
+				}
+
+				break;
+
+			case 5:
 				running = false;
 				System.out.println("Exiting Address Book...");
 				break;
