@@ -45,3 +45,20 @@ Implemented functionality to add a new contact to the Address Book using console
 [feature/UC2-add-contact](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC2-add-contact)
 
 ---
+
+## UC3 – Ability to Edit Existing Contact Person
+
+Implemented functionality to edit an existing contact using the person's name.
+
+**Features Implemented**
+
+- Used **console input** to select and edit a contact.
+- Search contact using **person's name**.
+- Updated fields such as address, city, state, phone number, email, etc.
+- Modified contact details inside the Address Book.
+
+**GitHub Branch**
+
+[feature/UC3-edit-contact](https://github.com/rashi-raj/AddressBookApp/tree/feature/UC3-edit-contact)
+
+---
