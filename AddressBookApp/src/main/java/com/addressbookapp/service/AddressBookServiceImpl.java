@@ -3,6 +3,7 @@ package com.addressbookapp.service;
 import com.addressbookapp.manager.AddressBookManager;
 import com.addressbookapp.model.AddressBook;
 import com.addressbookapp.model.Contact;
+import com.addressbookapp.repository.AddressBookDBRepository;
 import com.addressbookapp.repository.AddressBookRepository;
 import org.springframework.stereotype.Service;
 import com.opencsv.bean.StatefulBeanToCsv;
@@ -31,10 +32,13 @@ public class AddressBookServiceImpl implements AddressBookService {
 
 	private final AddressBookRepository repository;
 	private final AddressBookManager manager;
+	private final AddressBookDBRepository dbRepository;
 
-	public AddressBookServiceImpl(AddressBookRepository repository, AddressBookManager manager) {
+	public AddressBookServiceImpl(AddressBookRepository repository, AddressBookManager manager,
+			AddressBookDBRepository dbRepository) {
 		this.repository = repository;
 		this.manager = manager;
+		this.dbRepository = dbRepository;
 	}
 
 	@Override
@@ -361,5 +365,62 @@ public class AddressBookServiceImpl implements AddressBookService {
 			System.out.println("JSON file not found.");
 		}
 	}
-}
 
+	@Override
+	public List<Contact> getContactsFromDatabase() {
+
+		List<Contact> contacts = dbRepository.getAllContacts();
+
+		AddressBook book = manager.getAddressBook("Friends");
+
+		if (book != null) {
+			book.getContacts().clear();
+			book.getContacts().addAll(contacts);
+		}
+
+		return contacts;
+	}
+
+	@Override
+	public boolean updateContactInDB(String bookName, Contact updatedContact) {
+
+		AddressBook book = manager.getAddressBook(bookName);
+
+		if (book == null) {
+			System.out.println("Address Book not found.");
+			return false;
+		}
+
+		Contact existing = repository.findByFirstName(updatedContact.getFirstName(), book.getContacts());
+
+		if (existing == null) {
+			System.out.println("Contact not found.");
+			return false;
+		}
+
+		existing.setAddress(updatedContact.getAddress());
+		existing.setCity(updatedContact.getCity());
+		existing.setState(updatedContact.getState());
+		existing.setZip(updatedContact.getZip());
+		existing.setPhoneNumber(updatedContact.getPhoneNumber());
+		existing.setEmail(updatedContact.getEmail());
+
+		boolean dbUpdated = dbRepository.updateContact(updatedContact);
+
+		if (!dbUpdated) {
+			System.out.println("Database update failed");
+			return false;
+		}
+
+		Contact dbContact = dbRepository.getAllContacts().stream()
+				.filter(c -> c.getFirstName().equals(updatedContact.getFirstName())).findFirst().orElse(null);
+
+		boolean synced = updatedContact.equals(dbContact);
+
+		if (synced) {
+			System.out.println("Memory and Database are synchronized.");
+		}
+
+		return synced;
+	}
+}

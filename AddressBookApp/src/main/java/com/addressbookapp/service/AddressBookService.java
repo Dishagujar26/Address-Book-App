@@ -40,8 +40,12 @@ public interface AddressBookService {
 	void saveAddressBookToCSV(String bookName);
 
 	void loadAddressBookFromCSV(String bookName);
-	
+
 	void saveAddressBookToJSON(String bookName);
 
 	void loadAddressBookFromJSON(String bookName);
+
+	List<Contact> getContactsFromDatabase();
+
+	boolean updateContactInDB(String bookName, Contact contact);
 }
