@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,24 +130,25 @@ public class AddressBookServiceImpl implements AddressBookService {
 		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
 				.filter(contact -> contact.getState().equalsIgnoreCase(state)).toList();
 	}
-	
+
 	@Override
 	public Map<String, List<Contact>> getPersonsByCity() {
 
-	    return manager.getAllAddressBooks()
-	            .values()
-	            .stream()
-	            .flatMap(book -> book.getContacts().stream())
-	            .collect(Collectors.groupingBy(Contact::getCity));
+		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
+				.collect(Collectors.groupingBy(Contact::getCity));
 	}
-	
+
 	@Override
 	public Map<String, List<Contact>> getPersonsByState() {
 
-	    return manager.getAllAddressBooks()
-	            .values()
-	            .stream()
-	            .flatMap(book -> book.getContacts().stream())
-	            .collect(Collectors.groupingBy(Contact::getState));
+		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
+				.collect(Collectors.groupingBy(Contact::getState));
+	}
+
+	@Override
+	public Map<String, Long> getContactCount(Function<Contact, String> classifier) {
+
+		return manager.getAllAddressBooks().values().stream().flatMap(book -> book.getContacts().stream())
+				.collect(Collectors.groupingBy(classifier, Collectors.counting()));
 	}
 }

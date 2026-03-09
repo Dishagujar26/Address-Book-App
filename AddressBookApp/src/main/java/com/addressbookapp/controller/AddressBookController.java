@@ -32,7 +32,7 @@ public class AddressBookController {
 			int choice = scanner.nextInt();
 			scanner.nextLine();
 
-			switch(choice){
+			switch (choice) {
 
 			case 1 -> addAddressBook();
 			case 2 -> addContact();
@@ -43,7 +43,9 @@ public class AddressBookController {
 			case 7 -> searchByState();
 			case 8 -> viewPersonsByCity();
 			case 9 -> viewPersonsByState();
-			case 10 -> running = false;
+			case 10 -> countByCity();
+			case 11 -> countByState();
+			case 12 -> running = false;
 
 			}
 		}
@@ -60,7 +62,9 @@ public class AddressBookController {
 		System.out.println("7 Search by State");
 		System.out.println("8 View Persons by City");
 		System.out.println("9 View Persons by State");
-		System.out.println("10 Exit");
+		System.out.println("10 Count Contacts by City");
+		System.out.println("11 Count Contacts by State");
+		System.out.println("12 Exit");
 	}
 
 	private void addAddressBook() {
@@ -191,25 +195,39 @@ public class AddressBookController {
 
 		results.forEach(System.out::println);
 	}
-	
+
 	private void viewPersonsByCity() {
 
-	    Map<String, List<Contact>> cityMap = service.getPersonsByCity();
+		Map<String, List<Contact>> cityMap = service.getPersonsByCity();
 
-	    cityMap.forEach((city, persons) -> {
-	        System.out.println("\nCity: " + city);
-	        persons.forEach(System.out::println);
-	    });
+		cityMap.forEach((city, persons) -> {
+			System.out.println("\nCity: " + city);
+			persons.forEach(System.out::println);
+		});
 	}
-	
+
 	private void viewPersonsByState() {
 
-	    Map<String, List<Contact>> stateMap = service.getPersonsByState();
+		Map<String, List<Contact>> stateMap = service.getPersonsByState();
 
-	    stateMap.forEach((state, persons) -> {
-	        System.out.println("\nState: " + state);
-	        persons.forEach(System.out::println);
-	    });
+		stateMap.forEach((state, persons) -> {
+			System.out.println("\nState: " + state);
+			persons.forEach(System.out::println);
+		});
+	}
+
+	private void countByCity() {
+
+		Map<String, Long> result = service.getContactCount(Contact::getCity);
+
+		result.forEach((city, count) -> System.out.println(city + " : " + count));
+	}
+
+	private void countByState() {
+
+		Map<String, Long> result = service.getContactCount(Contact::getState);
+
+		result.forEach((state, count) -> System.out.println(state + " : " + count));
 	}
 
 }
