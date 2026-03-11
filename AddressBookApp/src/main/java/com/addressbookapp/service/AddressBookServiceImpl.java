@@ -21,6 +21,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -239,9 +241,9 @@ public class AddressBookServiceImpl implements AddressBookService {
 			book.getContacts().clear();
 
 			List<Contact> contacts = Files.readAllLines(Path.of(bookName + ".txt")).stream()
-					.map(line -> line.split(","))
-					.map(data -> new Contact(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]))
-					.toList();
+					.map(line -> line.split(",")).map(data -> new Contact(data[0], data[1], data[2], data[3], data[4],
+							data[5], data[6], data[7]))
+					.collect(Collectors.toList());
 
 			book.getContacts().addAll(contacts);
 
@@ -422,5 +424,67 @@ public class AddressBookServiceImpl implements AddressBookService {
 		}
 
 		return synced;
+	}
+
+	@Override
+	public List<Contact> getContactsByDateRange(LocalDate start, LocalDate end) {
+
+		return dbRepository.getContactsByDateRange(start, end);
+	}
+
+	@Override
+	public Map<String, Long> getContactCountByCityFromDB() {
+		return dbRepository.countContactsByCity();
+	}
+
+	@Override
+	public Map<String, Long> getContactCountByStateFromDB() {
+		return dbRepository.countContactsByState();
+	}
+
+	@Override
+	public boolean addContactToDatabase(Contact contact) {
+
+		boolean inserted = dbRepository.addContactToDB(contact);
+
+		if (inserted) {
+			System.out.println("Contact added to database.");
+		} else {
+			System.out.println("Failed to add contact.");
+		}
+
+		return inserted;
+	}
+
+	@Override
+	public void addMultipleContactsToDB(List<Contact> contacts) {
+
+		List<Thread> threads = new ArrayList<>();
+
+		for (Contact contact : contacts) {
+
+			Thread thread = new Thread(() -> {
+
+				boolean inserted = dbRepository.addContactToDB(contact);
+
+				if (inserted) {
+					System.out.println(contact.getFirstName() + " added by " + Thread.currentThread().getName());
+				}
+
+			});
+
+			threads.add(thread);
+			thread.start();
+		}
+
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				System.out.println("Thread interrupted");
+			}
+		}
+
+		System.out.println("All contacts inserted.");
 	}
 }

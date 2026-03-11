@@ -2,6 +2,7 @@ package com.addressbookapp.service;
 
 import com.addressbookapp.model.Contact;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -48,4 +49,14 @@ public interface AddressBookService {
 	List<Contact> getContactsFromDatabase();
 
 	boolean updateContactInDB(String bookName, Contact contact);
+
+	List<Contact> getContactsByDateRange(LocalDate start, LocalDate end);
+
+	Map<String, Long> getContactCountByCityFromDB();
+
+	Map<String, Long> getContactCountByStateFromDB();
+
+	boolean addContactToDatabase(Contact contact);
+
+	void addMultipleContactsToDB(List<Contact> contacts);
 }
